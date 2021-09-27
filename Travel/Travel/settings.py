@@ -37,7 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'destinations'
 ]
+
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,10 +59,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Travel.urls'
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +76,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+STATIC_ROOT ="../static"
 
 WSGI_APPLICATION = 'Travel.wsgi.application'
 
