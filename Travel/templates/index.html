@@ -30,30 +30,24 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
 	
 	<!-- Animate.css -->
-	<link rel="stylesheet" href="{%static  'css/animate.css' %}">
+	<link rel="stylesheet" href="{% static  'css/animate.css' %}">
 	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="{%tatic 'css/icomoon.css'% }">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<!-- Superfish -->
-	<link rel="stylesheet" href="css/superfish.css">
-	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<!-- Date Picker -->
-	<link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
-	<!-- CS Select -->
-	<link rel="stylesheet" href="css/cs-select.css">
-	<link rel="stylesheet" href="css/cs-skin-border.css">
+	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+	<link rel="stylesheet" href={% static 'css/bootstrap.css' %}>
+	<link rel="stylesheet" href={% static 'css/superfish.css' %}>
+	<link rel="stylesheet" href={% static 'css/magnific-popup.css' %}>
+	<link rel="stylesheet" href={% static 'css/bootstrap-datepicker.min.css' %}>
+	<link rel="stylesheet" href={% static 'css/cs-select.css' %}>
+	<link rel="stylesheet" href={% static 'css/cs-skin-border.css' %}>
 	
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href={% static 'css/style.css' %}>
 
 
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
+	<script src={% static 'js/modernizr-2.6.2.min.js' %}></script>
+
+	<script src={% static 'js/respond.min.js' %}></script>
+
+	<script src={% static 'index.js' %}></script>
 
 	</head>
 	<body>
@@ -340,7 +334,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src="images/place-1.jpg" alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href="#"><img src={% static 'images/place-1.jpg' %} alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
 							<div class="desc">
 								<span></span>
 								<h3>New York</h3>
