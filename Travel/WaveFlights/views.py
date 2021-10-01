@@ -9,13 +9,13 @@ def car(request):
     return render (request, 'car.html')
 
 def contact(request):
-    return render (request, ' contact.html')
+    return render (request, 'contact.html')
 
 def flight(request):
     return render (request, 'flight.html')
 
 def hotel(request):
-    return render('hotel.h')
+    return render(request,'hotel.html')
 
 def index(request):
     return render (request, 'index.html')

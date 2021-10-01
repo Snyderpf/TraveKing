@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 {% load static %}
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -7,7 +9,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title> KING &mdash;</title>
+	<title>TravKing</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 
@@ -25,9 +27,10 @@
 	<meta name="twitter:card" content="" />
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="{%static 'favicon.icon' %}">
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}">
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="{% static  'css/animate.css' %}">
@@ -58,13 +61,13 @@
 			<div class="container">
 				<div class="nav-header">
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
-					<h1 id="fh5co-logo"><a href="index.html"><i class="icon-airplane"></i>Travel</a></h1>
+					<h1 id="fh5co-logo"><a href={% url 'index' %}><i class="icon-airplane"></i>Travel</a></h1>
 					<!-- START #fh5co-menu-wrap -->
 					<nav id="fh5co-menu-wrap" role="navigation">
 						<ul class="sf-menu" id="fh5co-primary-menu">
-							<li class="active"><a href="index.html">Home</a></li>
+							<li class="active"><a href={% url 'index' %}>Home</a></li>
 							<li>
-								<a href="vacation.html" class="fh5co-sub-ddown">Vacations</a>
+								<a href={% url 'vacation' %} class="fh5co-sub-ddown">Vacations</a>
 								<ul class="fh5co-sub-menu">
 									<li><a href="#">Family</a></li>
 									<li><a href="#">CSS3 &amp; HTML5</a></li>
@@ -73,11 +76,11 @@
 									<li><a href="#">Django &amp; Python</a></li>
 								</ul>
 							</li>
-							<li><a href="{% static 'flight.html' %}">Flights</a></li>
-							<li><a href="{% static 'hotel.html' %}">Hotel</a></li>
-							<li><a href="{% static 'car.html' %}">Car</a></li>
-							<li><a href="{% static 'blog.html' %}">Blog</a></li>
-							<li><a href="{% static 'contact.html' %}">Contact</a></li>
+							<li><a href={% url 'flight' %}>Flight</a></li>
+							<li><a href={% url 'hotel' %}>Hotel</a></li>
+							<li><a href={% url 'car' %}>Car</a></li>
+							<li><a href={% url 'blog' %}>Blog</a></li>
+							<li><a href={% url 'contact' %}>Contact</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -88,7 +91,7 @@
 	
 		<div class="fh5co-hero">
 			<div class="fh5co-overlay"></div>
-			<div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: url(images/cover_bg_1.jpg);">
+			<div class="fh5co-cover" data-stellar-background-ratio="0.5" style="background-image: url({% static 'images/cover_bg_1.jpg' %});">
 				<div class="desc">
 					<div class="container">
 						<div class="row">
@@ -111,37 +114,42 @@
 								   <!-- Tab panes -->
 									<div class="tab-content">
 									 <div role="tabpanel" class="tab-pane active" id="flights">
-										<div class="row">
+										<form class="row" id="hotel-form">
 											<div class="col-xxs-12 col-xs-6 mt">
 												<div class="input-field">
 													<label for="from">From:</label>
-													<input type="text" class="form-control" id="from-place" placeholder="Los Angeles, USA"/>
+													<input type="text" class="form-control" id="from-place" placeholder="Los Angeles, USA" />
 												</div>
 											</div>
 											<div class="col-xxs-12 col-xs-6 mt">
 												<div class="input-field">
 													<label for="from">To:</label>
-													<input type="text" class="form-control" id="to-place" placeholder="Tokyo, Japan"/>
+													<input type="text" class="form-control" id="to-place" placeholder="Tokyo, Japan" />
 												</div>
+											</div>
+											<div class="col-xs-12 col-xs-6 mt">
+												<div id="covid"></div>
+												<div  id="covidGIF">
+													<img src={% static 'loading.gif' %} alt="covid" />
+												</div>											
 											</div>
 											<div class="col-xxs-12 col-xs-6 mt alternate">
 												<div class="input-field">
 													<label for="date-start">Check In:</label>
-													<input type="text" class="form-control" id="date-start" placeholder="mm/dd/yyyy"/>
+													<input type="text" class="form-control" id="date-start" placeholder="mm/dd/yyyy" />
 												</div>
 											</div>
 											<div class="col-xxs-12 col-xs-6 mt alternate">
 												<div class="input-field">
 													<label for="date-end">Check Out:</label>
-													<input type="text" class="form-control" id="date-end" placeholder="mm/dd/yyyy"/>
+													<input type="text" class="form-control" id="date-end" placeholder="mm/dd/yyyy" />
 												</div>
 											</div>
 											<div class="col-sm-12 mt">
 												<section>
 													<label for="class">Class:</label>
-													<select class="cs-select cs-skin-border">
-														<option value="" disabled selected>Economy</option>
-														<option value="economy">Economy</option>
+													<select id="class-select" class="cs-select cs-skin-border">
+														<option value="economy" selected>Economy</option>
 														<option value="first">First</option>
 														<option value="business">Business</option>
 													</select>
@@ -150,9 +158,8 @@
 											<div class="col-xxs-12 col-xs-6 mt">
 												<section>
 													<label for="class">Adult:</label>
-													<select class="cs-select cs-skin-border">
-														<option value="" disabled selected>1</option>
-														<option value="1">1</option>
+													<select id="adult-count" class="cs-select cs-skin-border">
+														<option value="1" selected>1</option>
 														<option value="2">2</option>
 														<option value="3">3</option>
 														<option value="4">4</option>
@@ -162,19 +169,24 @@
 											<div class="col-xxs-12 col-xs-6 mt">
 												<section>
 													<label for="class">Children:</label>
-													<select class="cs-select cs-skin-border">
-														<option value="" disabled selected>1</option>
-														<option value="1">1</option>
+													<select id="child-count" class="cs-select cs-skin-border">
+														<option value="1" selected>1</option>
 														<option value="2">2</option>
 														<option value="3">3</option>
 														<option value="4">4</option>
 													</select>
 												</section>
 											</div>
+											<div class="col-xs-12 col-xs-6 mt">
+												<div id="flightt"></div>												
+											</div>
+											<div  id="flightGIF">
+													<img src={% static 'loading.gif' %} alt="covid" />
+												</div>	
 											<div class="col-xs-12">
 												<input type="submit" class="btn btn-primary btn-block" value="Search Flight">
 											</div>
-										</div>
+										</form>
 									 </div>
 
 									 <div role="tabpanel" class="tab-pane" id="hotels">
@@ -334,7 +346,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src={% static 'images/place-1.jpg' %} alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href="#"><img src={% static 'images/place1.jpg' %} alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
 							<div class="desc">
 								<span></span>
 								<h3>New York</h3>
@@ -345,7 +357,7 @@
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src="images/place-2.jpg" alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href="#"><img src={% static 'images/place2.jpg' %} alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
 							<div class="desc">
 								<span></span>
 								<h3>Philippines</h3>
@@ -356,7 +368,7 @@
 						</div>
 					</div>
 					<div class="col-md-4 col-sm-6 fh5co-tours animate-box" data-animate-effect="fadeIn">
-						<div href="#"><img src="images/place-3.jpg" alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
+						<div href="#"><img src={% static 'images/place3.jpg' %} alt="Free HTML5 Website Template by FreeHTML5.co" class="img-responsive">
 							<div class="desc">
 								<span></span>
 								<h3>Hongkong</h3>
@@ -467,28 +479,28 @@
 				<div class="row">
 					<div class="col-md-12">
 						<ul id="fh5co-destination-list" class="animate-box">
-							<li class="one-forth text-center" style="background-image: url(images/place-1.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place1.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Los Angeles</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-2.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place2.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Hongkong</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-3.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place3.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Italy</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-4.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place4.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Philippines</h2>
@@ -496,7 +508,7 @@
 								</a>
 							</li>
 
-							<li class="one-forth text-center" style="background-image: url(images/place-5.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place5.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Japan</h2>
@@ -511,35 +523,35 @@
 									</div>
 								</div>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-6.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place6.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Paris</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-7.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place7.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Singapore</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-8.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place8.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Madagascar</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-9.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place9.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Egypt</h2>
 									</div>
 								</a>
 							</li>
-							<li class="one-forth text-center" style="background-image: url(images/place-10.jpg); ">
+							<li class="one-forth text-center" style="background-image: url({% static 'images/place10.jpg' %}); ">
 								<a href="#">
 									<div class="case-studies-summary">
 										<h2>Indonesia</h2>
@@ -565,7 +577,7 @@
 				<div class="row row-bottom-padded-md">
 					<div class="col-lg-4 col-md-4 col-sm-6">
 						<div class="fh5co-blog animate-box">
-							<a href="#"><img class="img-responsive" src="images/place-1.jpg" alt=""></a>
+							<a href="#"><img class="img-responsive" src={% static 'images/place1.jpg' %} alt=""></a>
 							<div class="blog-text">
 								<div class="prod-title">
 									<h3><a href="#">30% Discount to Travel All Around the World</a></h3>
@@ -579,7 +591,7 @@
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-6">
 						<div class="fh5co-blog animate-box">
-							<a href="#"><img class="img-responsive" src="images/place-2.jpg" alt=""></a>
+							<a href="#"><img class="img-responsive" src={% static 'images/place2.jpg' %} alt=""></a>
 							<div class="blog-text">
 								<div class="prod-title">
 									<h3><a href="#">Planning for Vacation</a></h3>
@@ -594,7 +606,7 @@
 					<div class="clearfix visible-sm-block"></div>
 					<div class="col-lg-4 col-md-4 col-sm-6">
 						<div class="fh5co-blog animate-box">
-							<a href="#"><img class="img-responsive" src="images/place-3.jpg" alt=""></a>
+							<a href="#"><img class="img-responsive" src={% static 'images/place3.jpg' %} alt=""></a>
 							<div class="blog-text">
 								<div class="prod-title">
 									<h3><a href="#">Visit Tokyo Japan</a></h3>
@@ -739,31 +751,31 @@
 	<!-- jQuery -->
 
 
-	<script src="js/jquery.min.js"></script>
+	<script src={% static 'js/jquery.min.js' %}></script>
 	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
+	<script src={% static 'js/jquery.easing.1.3.js' %}></script>
 	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src={% static 'js/bootstrap.min.js' %}></script>
 	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<script src="js/sticky.js"></script>
+	<script src={% static 'js/jquery.waypoints.min.js' %}></script>
+	<script src={% static 'js/sticky.js' %}></script>
 
 	<!-- Stellar -->
-	<script src="js/jquery.stellar.min.js"></script>
+	<script src={% static 'js/jquery.stellar.min.js' %}></script>
 	<!-- Superfish -->
-	<script src="js/hoverIntent.js"></script>
-	<script src="js/superfish.js"></script>
+	<script src={% static 'js/hoverIntent.js' %}></script>
+	<script src={% static 'js/superfish.js' %}></script>
 	<!-- Magnific Popup -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/magnific-popup-options.js"></script>
+	<script src={% static 'js/jquery.magnific-popup.min.js' %}></script>
+	<script src={% static 'js/magnific-popup-options.js' %}></script>
 	<!-- Date Picker -->
-	<script src="js/bootstrap-datepicker.min.js"></script>
+	<script src={% static 'js/bootstrap-datepicker.min.js' %}></script>
 	<!-- CS Select -->
-	<script src="js/classie.js"></script>
-	<script src="js/selectFx.js"></script>
+	<script src={% static 'js/classie.js' %}></script>
+	<script src={% static 'js/selectFx.js' %}></script>
 	
 	<!-- Main JS -->
-	<script src="js/main.js"></script>
+	<script src={% static 'js/main.js' %}></script>
 
 	</body>
 </html>
