@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def blog(request):
-    return render (request, 'blog.html')
+#def blog(request):
+ #   return render (request, 'blog.html')
 
 def car(request):
     return render (request, 'car.html')
